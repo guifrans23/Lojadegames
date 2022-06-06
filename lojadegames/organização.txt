@@ -1,0 +1,14 @@
+========================================================tabela que devem ser criadas========================================================================
+produtos
+usuarios
+fornecedores
+clientes
+pedidos
+carrinho 
+========================================================tabela que foram criadas========================================================================
+produtos✅
+usuarios✅
+fornecedores✅
+clientes✅
+pedidos✅
+carrinho ✅
