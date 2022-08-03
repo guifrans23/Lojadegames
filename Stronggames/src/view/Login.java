@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import model.DAO;
+
 import java.awt.Toolkit;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -16,13 +19,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Cursor;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private JLabel lblNewLabel_2;
+	private JLabel lblStatus2;
 
 	/**
 	 * Launch the application.
@@ -44,6 +50,12 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				status();
+			}
+		});
 		setResizable(false);
 		setTitle("Stronggames - Login");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/img/logo.png")));
@@ -79,15 +91,41 @@ public class Login extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
+	
 		});
 		btnNewButton.setBounds(299, 202, 89, 23);
 		contentPane.add(btnNewButton);
 		
-		lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/img/dboff.png")));
-		lblNewLabel_2.setToolTipText("Db - ");
-		lblNewLabel_2.setBounds(27, 186, 56, 58);
-		contentPane.add(lblNewLabel_2);
+		lblStatus2 = new JLabel("");
+		lblStatus2.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblStatus2.setIcon(new ImageIcon(Login.class.getResource("/img/dboff.png")));
+		lblStatus2.setToolTipText("Db - ");
+		lblStatus2.setBounds(27, 186, 56, 58);
+		contentPane.add(lblStatus2);
+	}
+
+
+//fim do construtor
+
+//Criação de um Objeto para acessar a camada Model
+DAO dao = new DAO();
+private JLabel lblStatus;
+
+/**
+ * Método usado para verificar o status do server
+ */
+private void status( ){
+	try {
+		// Abrir conexão
+		Connection con = dao.conectar();
+		if (con == null) {
+		lblStatus2.setIcon(new ImageIcon(Login.class.getResource("/img/dboff.png")));	
+		}
+		else {
+			lblStatus2.setIcon(new ImageIcon(Login.class.getResource("/img/dbon.png")));
+		}
+	} catch (Exception e) {
+		System.out.println(e);
 	}
 }
+}//fim do construtor
