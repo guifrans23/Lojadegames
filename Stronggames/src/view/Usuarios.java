@@ -6,19 +6,28 @@ import javax.swing.JDialog;
 import java.awt.Toolkit;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+
+import model.DAO;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.Cursor;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.awt.event.ActionEvent;
 
 public class Usuarios extends JDialog {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JPasswordField passwordField;
+	private JTextField txtUsuId;
+	private JTextField txtUsuNome;
+	private JTextField txtUsuLogin;
+	private JPasswordField txtUsuSenha;
 
 	/**
 	 * Launch the application.
@@ -48,15 +57,15 @@ public class Usuarios extends JDialog {
 		setBounds(100, 100, 401, 306);
 		getContentPane().setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(66, 30, 122, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		txtUsuId = new JTextField();
+		txtUsuId.setBounds(66, 30, 122, 20);
+		getContentPane().add(txtUsuId);
+		txtUsuId.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(66, 71, 238, 20);
-		getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		txtUsuNome = new JTextField();
+		txtUsuNome.setBounds(66, 71, 238, 20);
+		getContentPane().add(txtUsuNome);
+		txtUsuNome.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Usuario");
 		lblNewLabel.setBounds(10, 74, 46, 14);
@@ -66,10 +75,10 @@ public class Usuarios extends JDialog {
 		lblNewLabel_1.setBounds(10, 33, 46, 14);
 		getContentPane().add(lblNewLabel_1);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(66, 113, 122, 20);
-		getContentPane().add(textField_2);
-		textField_2.setColumns(10);
+		txtUsuLogin = new JTextField();
+		txtUsuLogin.setBounds(66, 113, 122, 20);
+		getContentPane().add(txtUsuLogin);
+		txtUsuLogin.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Login");
 		lblNewLabel_2.setBounds(10, 116, 46, 14);
@@ -79,54 +88,103 @@ public class Usuarios extends JDialog {
 		lblNewLabel_3.setBounds(10, 147, 46, 14);
 		getContentPane().add(lblNewLabel_3);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(66, 144, 238, 20);
-		getContentPane().add(passwordField);
+		txtUsuSenha = new JPasswordField();
+		txtUsuSenha.setBounds(66, 144, 238, 20);
+		getContentPane().add(txtUsuSenha);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Admin", "User"}));
-		comboBox.setBounds(254, 112, 106, 22);
-		getContentPane().add(comboBox);
+		cboUsuPerfil = new JComboBox();
+		cboUsuPerfil.setModel(new DefaultComboBoxModel(new String[] {"", "Admin", "User"}));
+		cboUsuPerfil.setBounds(254, 112, 106, 22);
+		getContentPane().add(cboUsuPerfil);
 		
 		JLabel lblNewLabel_4 = new JLabel("Perfil");
 		lblNewLabel_4.setBounds(198, 116, 46, 14);
 		getContentPane().add(lblNewLabel_4);
 		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton.setBorderPainted(false);
-		btnNewButton.setContentAreaFilled(false);
-		btnNewButton.setIcon(new ImageIcon(Usuarios.class.getResource("/img/pesquisa.png")));
-		btnNewButton.setToolTipText("pesquisa");
-		btnNewButton.setBounds(198, 12, 48, 48);
-		getContentPane().add(btnNewButton);
+		JButton btnPesquisar = new JButton("");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pesquisarUsuarios();
+			}
+		});
+		btnPesquisar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnPesquisar.setBorderPainted(false);
+		btnPesquisar.setContentAreaFilled(false);
+		btnPesquisar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/pesquisa.png")));
+		btnPesquisar.setToolTipText("pesquisa");
+		btnPesquisar.setBounds(198, 12, 48, 48);
+		getContentPane().add(btnPesquisar);
 		
-		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setContentAreaFilled(false);
-		btnNewButton_1.setBorderPainted(false);
-		btnNewButton_1.setIcon(new ImageIcon(Usuarios.class.getResource("/img/add.png")));
-		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_1.setToolTipText("Adicionar");
-		btnNewButton_1.setBounds(166, 190, 64, 64);
-		getContentPane().add(btnNewButton_1);
+		JButton btnAdicionar = new JButton("");
+		btnAdicionar.setContentAreaFilled(false);
+		btnAdicionar.setBorderPainted(false);
+		btnAdicionar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/add.png")));
+		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAdicionar.setToolTipText("Adicionar");
+		btnAdicionar.setBounds(166, 190, 64, 64);
+		getContentPane().add(btnAdicionar);
 		
-		JButton btnNewButton_2 = new JButton("");
-		btnNewButton_2.setBorderPainted(false);
-		btnNewButton_2.setContentAreaFilled(false);
-		btnNewButton_2.setIcon(new ImageIcon(Usuarios.class.getResource("/img/alterar.png")));
-		btnNewButton_2.setToolTipText("Alterar");
-		btnNewButton_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_2.setBounds(240, 190, 64, 64);
-		getContentPane().add(btnNewButton_2);
+		JButton btnAlterar = new JButton("");
+		btnAlterar.setBorderPainted(false);
+		btnAlterar.setContentAreaFilled(false);
+		btnAlterar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/alterar.png")));
+		btnAlterar.setToolTipText("Alterar");
+		btnAlterar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAlterar.setBounds(240, 190, 64, 64);
+		getContentPane().add(btnAlterar);
 		
-		JButton btnNewButton_3 = new JButton("");
-		btnNewButton_3.setBorderPainted(false);
-		btnNewButton_3.setContentAreaFilled(false);
-		btnNewButton_3.setToolTipText("excluir");
-		btnNewButton_3.setIcon(new ImageIcon(Usuarios.class.getResource("/img/delete.png")));
-		btnNewButton_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_3.setBounds(296, 190, 64, 64);
-		getContentPane().add(btnNewButton_3);
+		JButton btnExcluir = new JButton("");
+		btnExcluir.setBorderPainted(false);
+		btnExcluir.setContentAreaFilled(false);
+		btnExcluir.setToolTipText("excluir");
+		btnExcluir.setIcon(new ImageIcon(Usuarios.class.getResource("/img/delete.png")));
+		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnExcluir.setBounds(296, 190, 64, 64);
+		getContentPane().add(btnExcluir);
 
+	}//FIm do construtor
+	
+	DAO dao = new DAO();
+	private JComboBox cboUsuPerfil;
+	/**
+	 * metodo responsavel pela pesquisa do usuario
+	 */
+	 
+	private void pesquisarUsuarios() {
+		//variação
+		if (txtUsuId.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Digite o ID do Usuario");
+			txtUsuId.requestFocus();
+		} else {
+			// logica principal
+			//Query(instruçaõ SQL)
+			String read = "select * from usuarios where idus = ?";
+			//tratar exceções sempre que lidar com o banco
+			try {
+				// Estabelecer conecxão
+				Connection con = dao.conectar();
+				// preparar a execução da query
+				PreparedStatement pst = con.prepareStatement(read);
+				//setar o argumento (id)
+				pst.setString(1, txtUsuId.getText());
+				//Executar a query e exibir o resultado no formulario
+				ResultSet rs = pst.executeQuery();
+				//validação(existencia de usuario)
+				//rs.next() -> existencia do usuario
+				if(rs.next()) {
+					//prencher(setar) os campos do formulario
+					txtUsuNome.setText(rs.getString(2));
+					txtUsuLogin.setText(rs.getString(3));
+					cboUsuPerfil.setSelectedItem(rs.getString(5));
+					txtUsuSenha.setText(rs.getString(4));
+				}else {
+					JOptionPane.showMessageDialog(null, "Usuario não Cadastrado");
+				}
+				//Nunca se esqueca de setar a conexão
+				con.close();
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
 	}
-}
+}//fim do código
