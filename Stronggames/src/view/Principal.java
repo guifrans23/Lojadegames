@@ -12,8 +12,12 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Font;
 
 public class Principal extends JFrame {
+	private JButton BtnUsuarios;
+	private JButton btnRelatorio;
 
 	/**
 	 * Launch the application.
@@ -42,35 +46,36 @@ public class Principal extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setBorderPainted(false);
-		btnNewButton.setContentAreaFilled(false);
-		btnNewButton.addActionListener(new ActionListener() {
+		BtnUsuarios = new JButton("");
+		BtnUsuarios.setEnabled(false);
+		BtnUsuarios.setBorderPainted(false);
+		BtnUsuarios.setContentAreaFilled(false);
+		BtnUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuarios usuarios = new Usuarios();
 				usuarios.setVisible(true);
 			}
 		});
-		btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/img/user.png")));
-		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton.setToolTipText("Usuario");
-		btnNewButton.setBounds(10, 11, 128, 128);
-		getContentPane().add(btnNewButton);
+		BtnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/user.png")));
+		BtnUsuarios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		BtnUsuarios.setToolTipText("Usuario");
+		BtnUsuarios.setBounds(10, 11, 128, 128);
+		getContentPane().add(BtnUsuarios);
 		
-		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setBorderPainted(false);
-		btnNewButton_1.setContentAreaFilled(false);
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton BtnRelatorios = new JButton("");
+		BtnRelatorios.setBorderPainted(false);
+		BtnRelatorios.setContentAreaFilled(false);
+		BtnRelatorios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Fornecedores fornecedores = new Fornecedores();
 				fornecedores.setVisible(true);
 			}
 		});
-		btnNewButton_1.setIcon(new ImageIcon(Principal.class.getResource("/img/fornecedores.png")));
-		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_1.setToolTipText("Fornecedores");
-		btnNewButton_1.setBounds(148, 11, 128, 128);
-		getContentPane().add(btnNewButton_1);
+		BtnRelatorios.setIcon(new ImageIcon(Principal.class.getResource("/img/fornecedores.png")));
+		BtnRelatorios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		BtnRelatorios.setToolTipText("Fornecedores");
+		BtnRelatorios.setBounds(148, 11, 128, 128);
+		getContentPane().add(BtnRelatorios);
 		
 		JButton btnNewButton_2 = new JButton("");
 		btnNewButton_2.setContentAreaFilled(false);
@@ -133,20 +138,21 @@ public class Principal extends JFrame {
 		btnNewButton_5.setBounds(288, 150, 128, 128);
 		getContentPane().add(btnNewButton_5);
 		
-		JButton btnNewButton_6 = new JButton("");
-		btnNewButton_6.setContentAreaFilled(false);
-		btnNewButton_6.setBorderPainted(false);
-		btnNewButton_6.addActionListener(new ActionListener() {
+		btnRelatorio = new JButton("");
+		btnRelatorio.setEnabled(false);
+		btnRelatorio.setContentAreaFilled(false);
+		btnRelatorio.setBorderPainted(false);
+		btnRelatorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Relatorio relatorio = new Relatorio();
 				relatorio.setVisible(true);
 			}
 		});
-		btnNewButton_6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_6.setIcon(new ImageIcon(Principal.class.getResource("/img/Relatorio.png")));
-		btnNewButton_6.setToolTipText("Relatorio");
-		btnNewButton_6.setBounds(148, 150, 128, 128);
-		getContentPane().add(btnNewButton_6);
+		btnRelatorio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnRelatorio.setIcon(new ImageIcon(Principal.class.getResource("/img/Relatorio.png")));
+		btnRelatorio.setToolTipText("Relatorio");
+		btnRelatorio.setBounds(148, 150, 128, 128);
+		getContentPane().add(btnRelatorio);
 		
 		JButton btnNewButton_7 = new JButton("");
 		btnNewButton_7.setContentAreaFilled(false);
@@ -162,6 +168,24 @@ public class Principal extends JFrame {
 		});
 		btnNewButton_7.setBounds(426, 150, 128, 128);
 		getContentPane().add(btnNewButton_7);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(204, 0, 0));
+		panel.setBounds(0, 289, 561, 71);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Strong Games");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setBounds(74, 11, 117, 33);
+		panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(Principal.class.getResource("/img/lojalogo.png")));
+		lblNewLabel_1.setToolTipText("StrongGames");
+		lblNewLabel_1.setBounds(0, 0, 64, 71);
+		panel.add(lblNewLabel_1);
 
 	}
 }
