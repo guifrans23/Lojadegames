@@ -137,7 +137,7 @@ public class Usuarios extends JDialog {
 		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdicionar.setContentAreaFilled(false);
 		btnAdicionar.setBorderPainted(false);
-		btnAdicionar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/create.png")));
+		btnAdicionar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/add.png")));
 		btnAdicionar.setBounds(257, 226, 64, 64);
 		getContentPane().add(btnAdicionar);
 
@@ -149,7 +149,7 @@ public class Usuarios extends JDialog {
 			}
 		});
 		btnAlterar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnAlterar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/update.png")));
+		btnAlterar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/alterar.png")));
 		btnAlterar.setToolTipText("Alterar");
 		btnAlterar.setContentAreaFilled(false);
 		btnAlterar.setBorderPainted(false);
