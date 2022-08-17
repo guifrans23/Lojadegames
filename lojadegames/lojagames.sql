@@ -35,6 +35,28 @@ login varchar (255) not null unique,/* valor unico*/
 senha varchar (255) not null,
 perfil varchar (255) not null
 );
+
+describe usuarios;
+
+select*from usuarios;
+select*from usuarios where idusu =1;
+
+/* adicionar ususarios*/
+insert into usuarios(usuario,login,senha,perfil)
+value('guifrans','guifrans','123@senac','admin');
+insert into usuarios(usuario,login,senha,perfil)
+value('gaby','gaby','123@senac','user');
+insert into usuarios(usuario,login,senha,perfil)
+value('emanoel','emanoel','123@senac','user');
+insert into usuarios(usuario,login,senha,perfil)
+value('jose de assis ','josedeassis','123@senac','user');
+insert into usuarios(usuario,login,senha,perfil)
+value('edilson','edilson','123@senac','user');
+/* metodo correto de adicionar usuarios*/
+insert into usuarios(usuario,login,senha,perfil)
+value('vaamonde','vaamonde',md5('123@senac'),'user');
+
+
 -- tabela fornecedores
  create table fornecedores(
 idfor int primary key auto_increment,
